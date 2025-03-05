@@ -1,13 +1,12 @@
 ---
 title: "The Effects of Caffeinated and Non-Caffeinated Beverages on the Problem Solving Results of A Virtual Population"
-subtitle: "Data Collected from The Islands Virtual Population"
 author: 
   - Bhagatinder Longia 
   - Musab Muhammad 
   - Muntasir Munem 
   - Shea Munson 
   - Chloe Syriac
-date: today
+date: 03-14-2025
 date-format: long
 header-includes:
   - \usepackage{amsmath}
