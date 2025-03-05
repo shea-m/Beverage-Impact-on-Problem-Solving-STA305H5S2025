@@ -49,23 +49,23 @@ In this study, we are analyzing whether there is an association between caffeine
 
 We aim to study the following research questions:
 
--   RQ1: Do the different types of drinks have an impact on the 20 minute problem solving scores of adults on the islands?
+-   RQ1: Does beverage type have an impact on problem solving score?
 
-    -   Null hypothesis:
+    -   Null hypothesis: no association between beverage type and problem solving score.
 
-    -   Alternate hypothesis
+    -   Alternate hypothesis: association between beverage type and problem solving score exists.
 
 -   RQ2: Is there an association between the age group the participant belongs to, and the beverage type, on their problem solving scores.
 
-    -   Null hypothesis:
+    -   Null hypothesis: no association between age group and beverage type on problem solving score.
 
-    -   Alternate hypothesis
+    -   Alternate hypothesis: association between age group and beverage type on problem solving score exists.
 
 -   RQ3: Do caffeinated coffee and energy drinks have a higher impact on problem solving scores compared to their caffeine-free counterparts?
 
-    -   Null hypothesis:
+    -   Null hypothesis: no association between caffeinated drinks and higher score
 
-    -   Alternate hypothesis
+    -   Alternate hypothesis: association between caffeinated drinks and higher score exists.
 
 This paper consist of our methodology, analysis, results, limitations, and a conclusion for our study.
 
