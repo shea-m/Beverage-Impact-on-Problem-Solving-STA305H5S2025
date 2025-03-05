@@ -45,6 +45,8 @@ attach(data)
 
 Participants assigned a caffeinated drink would be expected to achieve a higher score that those that are not.
 
+In this study, we are analyzing whether there is an association between caffeine use and problem solving skills by giving coffee, energy drinks, and caffeine-free versions of them to participants from the The Islands, a virtual population.
+
 We aim to study the following research questions:
 
 -   RQ1: Do the different types of drinks have an impact on the 20 minute problem solving scores of adults on the islands?
