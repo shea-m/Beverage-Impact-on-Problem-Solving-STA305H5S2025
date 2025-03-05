@@ -12,8 +12,7 @@ header-includes:
   - \usepackage{amsmath}
   - \usepackage{amssymb}
   - \usepackage{pgfplots}
-abstract: "PLACEHOLDER TEXT: 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in turpis metus. Vestibulum interdum ullamcorper orci, eget blandit erat mollis id. Fusce consectetur magna at felis posuere suscipit. In facilisis, sapien in rutrum blandit, nibh purus vestibulum orci, at porttitor lorem purus id eros. Sed nec tellus in enim ultricies commodo. Cras sit amet dui velit. Vivamus eget justo ultricies leo suscipit convallis. Duis id facilisis lectus. Nunc a odio commodo sem varius ornare. Nulla facilisi. Vivamus augue metus, ultrices ac ex porttitor, interdum hendrerit nunc. In sit amet scelerisque leo, dictum elementum risus. Proin lobortis lectus nisl, vel pretium ligula tincidunt ut. Nulla pharetra, risus at eleifend elementum, ante arcu sagittis augue, ac ultrices mauris lacus auctor mauris. Sed feugiat felis at diam cursus semper. Nulla commodo pellentesque tincidunt. Phasellus ex arcu, efficitur vel diam sit amet, egestas fringilla nisi."
+abstract: "Caffeine is one of the most popular drugs in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness. The goal of our is to determine if there is an association between caffeine use and problem solving skills. We collected data using The Islands, a virtual population for testing experiments. [summary of key findings. [brief overview of results, improvments]."
 format: pdf
 number-sections: true
 toc: true
