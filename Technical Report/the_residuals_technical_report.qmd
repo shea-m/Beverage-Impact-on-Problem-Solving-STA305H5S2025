@@ -12,7 +12,8 @@ header-includes:
   - \usepackage{amsmath}
   - \usepackage{amssymb}
   - \usepackage{pgfplots}
-abstract: "Caffeine is one of the most popular drugs in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness. The goal of our is to determine if there is an association between caffeine use and problem solving skills. We collected data using The Islands, a virtual population for testing experiments. [summary of key findings. [brief overview of results, improvments]."
+  - \usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry}
+abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness. The goal of our is to determine if there is an association between caffeine use and problem solving skills. We collected data using The Islands, a virtual population for testing experiments. [summary of key findings]. [brief overview of results, improvments]."
 format: pdf
 number-sections: true
 toc: true
@@ -42,6 +43,30 @@ attach(data)
 
 # Introduction
 
+Participants assigned a caffeinated drink would be expected to achieve a higher score that those that are not.
+
+We aim to study the following research questions:
+
+-   RQ1: Do the different types of drinks have an impact on the 20 minute problem solving scores of adults on the islands?
+
+    -   Null hypothesis:
+
+    -   Alternate hypothesis
+
+-   RQ2: Is there an association between the age group the participant belongs to, and the beverage type, on their problem solving scores.
+
+    -   Null hypothesis:
+
+    -   Alternate hypothesis
+
+-   RQ3: Do caffeinated coffee and energy drinks have a higher impact on problem solving scores compared to their caffeine-free counterparts?
+
+    -   Null hypothesis:
+
+    -   Alternate hypothesis
+
+This paper consist of our methodology, analysis, results, limitations, and a conclusion for our study.
+
 # Methodlogy
 ## Experiment Set Up
 ## Data Collection
@@ -57,3 +82,7 @@ attach(data)
 # Conclusion
 
 # Appendix
+
+```{r}
+#| eval: false
+```
