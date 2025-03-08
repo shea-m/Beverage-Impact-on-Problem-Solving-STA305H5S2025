@@ -19,6 +19,10 @@ number-sections: true
 toc: true
 ---
 
+#TODO:
+- Fix label references
+- choose proper model (one way or two way?)
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -26,7 +30,7 @@ toc: true
 #| message: false
 
 # Ensure necessary packages are installed and loaded
-packages <- c("tidyverse", "patchwork", "performance")
+packages <- c("tidyverse", "patchwork", "performance", "knitr")
 for(pkg in packages) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
     install.packages(pkg)
@@ -35,9 +39,20 @@ for(pkg in packages) {
 library(tidyverse)
 library(patchwork)
 library(performance)
+library(knitr)
 
-
+# Load the Data
 data <- read.csv("cleaned_data.csv", header = TRUE)
+
+# Set Factor levels to display in desired order
+data$age_group <- factor(data$age_group, 
+                         levels = c("Y", "M", "O"), 
+                         labels = c("18-35", "36-54", "55+"))
+data$treatment <- factor(data$treatment, 
+                         levels = c("W", "E", "ED", "C", "CD"), 
+                         labels = c("Water (Control)", "Energy Drink", 
+                                    "Energy Drink (Decaf)", "Coffee", 
+                                    "Coffee (Decaf)"))
 attach(data)
 ```
 
@@ -70,21 +85,67 @@ We aim to study the following research questions:
 This paper consist of our methodology, analysis, results, limitations, and a conclusion for our study.
 
 # Methodlogy
-## Experiment Set Up
-## Data Collection
+During February of 2025, we conducted an experiment to determine if different caffeinated and decaffeinated drinks effect the problem solving skills of virtual participants. The data was collected from a virtual population on [The Islands](https://islands.smp.uq.edu.au/), a virtual population developed by the University of Queensland for learning and teaching in statistics. The experiment was a balanced design, involving participants ages 18 and up. A one-way ANOVA design was utilized, where our factor was the drink given and the response was the participants score on a twenty minute problem solving test. 
+
+In an effort to maintain some degree of controlling, we selected all participants from the same town. However, because there were not many significant factors that could easily be controlled, we opted to primarily use blocking. The participants were blocked into three age groups, with each age group receiving an equal amount of each treatment. To help account for factors that could not be controlled or blocked, we randomly assigned treatments among the participants using an R script (see appendix).
+
+Our participant pool included 150 participants $(n = 150)$, with 50 in each of the following age blocks: 18-35, 36-54, and 55+. Each participant was given one of five 250mL drinks: Water (Control), Energy Drink, Energy Drink Decaffeinated, Coffee, or Coffee Decaffeinated. There were a total of 30 participants per treatment factor, with 10 in each age group. After each participant was given their drink, a 20 minute problem solving test was administered with their scores record from 0 to 100.
 
 # Analysis
-## Summary Statistics
-## Checking Assumptions
+## Summary Statistics and Checking Assumptions
+After collecting our data we began with a preliminary summary and check of our data presented in @table1. The high mean and median indicate that participants generally scored well on the problem solving test. Additionally, the low standard deviation and IQR indicate that the scores were tightly clustered around the mean, with little variation. The minimum of 67, which lies well outside of the 1.5IQR range, indicates the presence of outliers, although further inspection is necessary to determine how many. Since the maximum of 100 lies within the 1.5IQR, we can determine that any outliers present are on the lower side.
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: table1
+sum_data <- data.frame(Value = c(min(score), max(score), round(mean(score), 4), 
+                                 median(score), round(sd(score), 4), IQR(score)))
+labs <- c("Min", "Max", "Mean", "Median", "SD", "IQR")
+kable(t(sum_data), col.names = labs, align = "c", 
+      caption = "Score Summary Statistics")
+```
+
+Further preliminary information can be gained upon graphing the scores using boxplots in @boxplots. 
+
+```{r, fig.width=10, fig.height=5}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: boxplots
+
+tr <- c("Water (Control)", "Energy Drink", "Energy Drink (Decaf)", "Coffee", 
+        "Coffee (Decaf")
+age <- c("18-35", "36-54", "55+")
+ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
+  geom_boxplot(position = position_dodge(width = 0.8)) + 
+  scale_x_discrete(labels = tr) + 
+  scale_y_continuous(limits = c(60, 100)) + 
+  labs(title = "Problem Solving Scores by Drink and Age Group",
+       x = "Treatment (Drink Type)", y = "Problem Solving Test Scores",
+       fill = "Age Group") + 
+  scale_fill_brewer(palette = "Dark2", breaks = age, labels = age) +
+  theme_minimal()
+```
+
+Before proceeding with planning analysis, we must check the three assumptions for a one-way ANOVA: independence, normally distributed, and equal variance.
+
+## Statistical Tests
 
 # Results
 
 # Limitations
+@ Talk about how administering problem solving right after treatment could affect results?
 
 # Conclusion
 
 # Appendix
 
 ```{r}
-#| eval: false
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
 ```
