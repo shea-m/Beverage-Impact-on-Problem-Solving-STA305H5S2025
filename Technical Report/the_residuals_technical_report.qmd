@@ -23,6 +23,8 @@ toc: true
 - Fix label references
 - choose proper model (one way or two way?)
 
+\newpage
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -57,13 +59,6 @@ attach(data)
 ```
 
 # Introduction
-#TODO:
-
--   What is your study about and why should we care?
--   What background information is necessary to let the reader understand?
--   What are your research questions?
--   What are your hypotheses?
--   What is the brief outline of the rest of your paper?
 
 As the world's most popular psychoactive substance, caffeine's widely known effects have been studied extensively. Despite certain drawbacks like digestion and anxiety issues in some people, due to being a stimulant, it has most commonly been used to temporarily increase mental alertness which improves things like memory and lessens fatigue, thus providing an energy boost.
 
@@ -118,9 +113,9 @@ labs <- c("Min", "Max", "Mean", "Median", "SD", "IQR")
 kable(t(sum_data), col.names = labs, align = "c")
 ```
 
-Further preliminary information can be gained upon graphing the scores using boxplots in @fig-boxplots.
+Further preliminary information can be gained upon graphing the scores using box plots in @fig-boxplots.
 
-```{r, fig.width=10, fig.height=5}
+```{r, fig.pos='H', fig.width=10, fig.height=5}
 #| echo: false
 #| eval: true
 #| warning: false
@@ -156,8 +151,54 @@ Before proceeding with planning analysis, we must check the three assumptions fo
 # Appendix
 
 ```{r}
-#| echo: false
-#| eval: true
+#| eval: false
 #| warning: false
 #| message: false
+
+# Load and install necessary libraries
+packages <- c("tidyverse", "patchwork", "performance", "knitr")
+for(pkg in packages) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+  }
+}
+library(tidyverse)
+library(patchwork)
+library(performance)
+library(knitr)
+
+# Load data, cleaned_data.csv
+# data <- read.csv("cleaned_data.csv", header = TRUE)
+data <-read.csv(file.choose())
+
+# Set factor levels to display in desired order
+data$age_group <- factor(data$age_group, 
+                         levels = c("Y", "M", "O"), 
+                         labels = c("18-35", "36-54", "55+"))
+data$treatment <- factor(data$treatment, 
+                         levels = c("W", "E", "ED", "C", "CD"), 
+                         labels = c("Water (Control)", "Energy Drink", 
+                                    "Energy Drink (Decaf)", "Coffee", 
+                                    "Coffee (Decaf)"))
+attach(data)
+
+# Table 1: Summary of Problem Solving Test Scores
+sum_data <- data.frame(Value = c(min(score), max(score), round(mean(score), 4), 
+                                 median(score), round(sd(score), 4), IQR(score)))
+labs <- c("Min", "Max", "Mean", "Median", "SD", "IQR")
+kable(t(sum_data), col.names = labs, align = "c")
+
+# Figure 1: Problem Solving By Drink and Age Group
+tr <- c("Water (Control)", "Energy Drink", "Energy Drink (Decaf)", "Coffee", 
+        "Coffee (Decaf")
+age <- c("18-35", "36-54", "55+")
+ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
+  geom_boxplot(position = position_dodge(width = 0.8)) + 
+  scale_x_discrete(labels = tr) + 
+  scale_y_continuous(limits = c(60, 100)) + 
+  labs(title = "Problem Solving Scores by Drink and Age Group",
+       x = "Treatment (Drink Type)", y = "Problem Solving Test Scores",
+       fill = "Age Group") + 
+  scale_fill_brewer(palette = "Dark2", breaks = age, labels = age) +
+  theme_minimal()
 ```
