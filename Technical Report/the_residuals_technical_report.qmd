@@ -13,7 +13,7 @@ header-includes:
   - \usepackage{amssymb}
   - \usepackage{pgfplots}
   - \usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry}
-abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness. The goal of our study is to determine if there is an association between caffeine use and problem solving skills. We collected data using The Islands, a virtual population for testing experiments. [summary of key findings]. [brief overview of results, improvments]."
+abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness. The goal of our study is to determine if there is an association between caffeine use and problem solving skills. We collected data using The Islands, a virtual population for testing experiments. After collecting a sample of 150 participants from The Islands,one of five different beverage options were administered each participant to reveal the following: [summary of key findings]. [brief overview of results, improvments]."
 format: pdf
 number-sections: true
 toc: true
@@ -176,6 +176,7 @@ Due to the violations of the normality and equal variance assumptions, we use a 
 \@ Talk about how administering problem solving right after treatment could affect results?
 
 # Conclusion
+This study aimed to examine the potential association between caffeine consumption through various beverages and problem-solving performance scores among virtual participants in The Islands. Analysis from a sample of 150 participants showed [include key findings.]
 
 # Appendix
 
