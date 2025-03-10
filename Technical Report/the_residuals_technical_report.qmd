@@ -98,7 +98,7 @@ Our participant pool included 150 participants $(n = 150)$, with 50 in each of t
 
 ## Summary Statistics and Checking Assumptions
 
-After collecting our data we began with a preliminary summary and check of our data presented in @tbl-table1. The high mean and median indicate that participants generally scored well on the problem solving test. Additionally, the low standard deviation and IQR indicate that the scores were tightly clustered around the mean, with little variation. The minimum of 67, which lies well outside of the 1.5IQR range, indicates the presence of outliers, although further inspection is necessary to determine how many. Since the maximum of 100 lies within the 1.5IQR, we can determine that any outliers present are on the lower side.
+We began by summarizing statistics of our data, presented in @tbl-table1. The high mean and median indicate that participants generally scored well on the problem solving test. Additionally, the low standard deviation and IQR indicate that the scores were tightly clustered around the mean with little variation. The minimum of 67, which lies well outside of 1.5 $\times$ IQR, indicates the presence of outliers, the amount of which would need further inspection to be determined. Since the maximum of 100 lies within 1.5 $\times$ IQR, we can determine that any outliers present are on the lower side.
 
 ```{r}
 #| echo: false
@@ -107,6 +107,9 @@ After collecting our data we began with a preliminary summary and check of our d
 #| message: false
 #| label: tbl-table1
 #| tbl-cap: Summary of Problem Solving Test Scores
+
+# Table 1: Summary of Problem Solving Test Scores
+
 sum_data <- data.frame(Value = c(min(score), max(score), round(mean(score), 4), 
                                  median(score), round(sd(score), 4), IQR(score)))
 labs <- c("Min", "Max", "Mean", "Median", "SD", "IQR")
@@ -121,6 +124,9 @@ Further preliminary information can be gained upon graphing the scores using box
 #| warning: false
 #| message: false
 #| label: fig-boxplots
+#| fig-cap: Box Plot Showing Problem Solving Scores by Drink and Age Group
+
+# Figure 1: Problem Solving By Drink and Age Group
 
 tr <- c("Water (Control)", "Energy Drink", "Energy Drink (Decaf)", "Coffee", 
         "Coffee (Decaf")
@@ -137,6 +143,28 @@ ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
 ```
 
 Before proceeding with planning analysis, we must check the three assumptions for a one-way ANOVA: independence, normally distributed, and equal variance.
+
+For our tests we decided to do a one-factor test (with just the treatments as a factor) and a
+two-factor test (with the blocking factor of age also added as a factor). For both tests, we
+found that assumptions of normality and homogeneity of variance were heavily violated.
+
+```{r, fig.pos='H'}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: fig-graphs
+
+# Generating the graphs to check for normality and homogeneity assumptions
+# for the one-factor ANOVA model and the two-factor ANOVA model
+
+one_factor_model <- aov(score ~ data$treatment, data = data)
+check_model(one_factor_model, check = c("normality", "homogeneity"))  
+
+two_factor_model <- aov(score ~ data$treatment + data$age_group, data = data)
+check_model(two_factor_model, check = c("normality", "homogeneity")) 
+```
+
 
 ## Statistical Tests
 
@@ -155,13 +183,15 @@ Before proceeding with planning analysis, we must check the three assumptions fo
 #| warning: false
 #| message: false
 
-# Load and install necessary libraries
+# Install necessary libraries
 packages <- c("tidyverse", "patchwork", "performance", "knitr")
 for(pkg in packages) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
     install.packages(pkg)
   }
 }
+
+# Load libraries
 library(tidyverse)
 library(patchwork)
 library(performance)
@@ -186,7 +216,8 @@ attach(data)
 sum_data <- data.frame(Value = c(min(score), max(score), round(mean(score), 4), 
                                  median(score), round(sd(score), 4), IQR(score)))
 labs <- c("Min", "Max", "Mean", "Median", "SD", "IQR")
-kable(t(sum_data), col.names = labs, align = "c")
+kable(t(sum_data), col.names = labs, align = "c",
+      caption = "Summary of Problem Solving Test Scores")
 
 # Figure 1: Problem Solving By Drink and Age Group
 tr <- c("Water (Control)", "Energy Drink", "Energy Drink (Decaf)", "Coffee", 
@@ -201,4 +232,29 @@ ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
        fill = "Age Group") + 
   scale_fill_brewer(palette = "Dark2", breaks = age, labels = age) +
   theme_minimal()
+
+# Generating the graphs to check for normality and homogeneity assumptions
+# for the one-factor ANOVA model and the two-factor ANOVA model
+one_factor_model <- aov(score ~ data$treatment, data = data)
+check_model(one_factor_model, check = c("normality", "homogeneity"))  
+
+two_factor_model <- aov(score ~ data$treatment + data$age_group, data = data)
+check_model(two_factor_model, check = c("normality", "homogeneity")) 
+
+# Print results of assumption checks:
+# 1. Check normality of residuals for the one-factor model
+normality_results1 <- check_normality(one_factor_model)
+print(normality_results1)
+
+# 2. Check homogeneity of variances for the one-factor model
+hetero_results1 <- check_heteroscedasticity(one_factor_model)
+print(hetero_results1)
+
+# 1. Check normality of residuals for the one-factor model again
+normality_results2 <- check_normality(one_factor_model)
+print(normality_results2)
+
+# 2. Check homogeneity of variances for the two-factor model
+hetero_results2 <- check_heteroscedasticity(two_factor_model)
+print(hetero_results2)
 ```
