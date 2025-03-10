@@ -165,8 +165,9 @@ two_factor_model <- aov(score ~ data$treatment + data$age_group, data = data)
 check_model(two_factor_model, check = c("normality", "homogeneity")) 
 ```
 
-
 ## Statistical Tests
+
+Due to the violations of the normality and equal variance assumptions, we use a non-parametric one-way ANOVA method.
 
 # Results
 
