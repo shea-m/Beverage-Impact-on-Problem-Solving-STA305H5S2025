@@ -13,7 +13,7 @@ header-includes:
   - \usepackage{amssymb}
   - \usepackage{pgfplots}
   - \usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry}
-abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness. The goal of our is to determine if there is an association between caffeine use and problem solving skills. We collected data using The Islands, a virtual population for testing experiments. [summary of key findings]. [brief overview of results, improvments]."
+abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness. The goal of our study is to determine if there is an association between caffeine use and problem solving skills. We collected data using The Islands, a virtual population for testing experiments. [summary of key findings]. [brief overview of results, improvments]."
 format: pdf
 number-sections: true
 toc: true
@@ -57,10 +57,17 @@ attach(data)
 ```
 
 # Introduction
+#TODO:
 
-Participants assigned a caffeinated drink would be expected to achieve a higher score that those that are not.
+-   What is your study about and why should we care?
+-   What background information is necessary to let the reader understand?
+-   What are your research questions?
+-   What are your hypotheses?
+-   What is the brief outline of the rest of your paper?
 
-In this study, we are analyzing whether there is an association between caffeine use and problem solving skills by giving coffee, energy drinks, and caffeine-free versions of them to participants from the The Islands, a virtual population.
+As the world's most popular psychoactive substance, caffeine's widely known effects have been studied extensively. Despite certain drawbacks like digestion and anxiety issues in some people, due to being a stimulant, it has most commonly been used to temporarily increase mental alertness which improves things like memory and lessens fatigue, thus providing an energy boost.
+
+In this study, we are analyzing whether there is an association between caffeine use and problem solving skills by giving coffee, energy drinks, and caffeine-free versions of both to participants from the The Islands, a virtual population. Our sample was split into three age groups: 18-35, 36-54, and 55+. Considering the effects of caffeine, participants assigned a caffeinated drink would be expected to achieve a higher score that those that are not.
 
 We aim to study the following research questions:
 
@@ -142,7 +149,7 @@ Before proceeding with planning analysis, we must check the three assumptions fo
 
 # Limitations
 
-@ Talk about how administering problem solving right after treatment could affect results?
+\@ Talk about how administering problem solving right after treatment could affect results?
 
 # Conclusion
 
