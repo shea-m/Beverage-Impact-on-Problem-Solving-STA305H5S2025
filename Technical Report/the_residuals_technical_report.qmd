@@ -32,7 +32,8 @@ toc: true
 #| message: false
 
 # Ensure necessary packages are installed and loaded
-packages <- c("tidyverse", "patchwork", "performance", "knitr")
+packages <- c("tidyverse", "patchwork", "performance", "knitr", "see", 
+              "kableExtra", "broom")
 for(pkg in packages) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
     install.packages(pkg)
@@ -42,6 +43,9 @@ library(tidyverse)
 library(patchwork)
 library(performance)
 library(knitr)
+library(see)
+library(kableExtra)
+library(broom)
 
 # Load the Data
 data <- read.csv("cleaned_data.csv", header = TRUE)
@@ -144,6 +148,8 @@ ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
 
 Before proceeding with planning analysis, we must check the three assumptions for a one-way ANOVA: independence, normally distributed, and equal variance.
 
+The first assumption of independence is satisfied. All data points are collected from unique individuals whos results do not depend on the others. 
+
 For our tests we decided to do a one-factor test (with just the treatments as a factor) and a
 two-factor test (with the blocking factor of age also added as a factor). For both tests, we
 found that the assumptions of homogeneity of variance and, in particular, normality of residuals were violated.
@@ -158,18 +164,34 @@ found that the assumptions of homogeneity of variance and, in particular, normal
 # Figure 2, 3: Normality and Variance Homogeneity Graphs
 # for one and two factor ANOVA
 
-one_factor_model <- aov(score ~ data$treatment, data = data)
+one_factor_model <- aov(score ~ treatment, data = data)
 check_model(one_factor_model, check = c("normality", "homogeneity"))  
 
-two_factor_model <- aov(score ~ data$treatment + data$age_group, data = data)
+two_factor_model <- aov(score ~ treatment + age_group, data = data)
 check_model(two_factor_model, check = c("normality", "homogeneity")) 
 ```
 
 ## Statistical Tests
 
-Due to the violations of the normality and equal variance assumptions, we use a non-parametric one-way ANOVA method.
+Since the assumption of normality and homogenity of variance are violated, we opt for a Kruskal-Wallis non parametric test. The results of the test are displayed in @fig-kw
+```{r, fig.pos='H'}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: fig-kw
+non_par <- kruskal.test(score~treatment, data)
+formatted <- as.data.frame(tidy(non_par))
+formatted$method <- NULL
+col_names <- c("H-Statistic", "P Value", "DF")
+kable(formatted, col.names = col_names, 
+      caption = "Kruskal-Wallis H-Test")
+
+```
+
 
 # Results
+From @fig-kw we have that our p-value for the Kruskal-Wallis non parametric test is 0.7735. This well exceeds the significance level of $\alpha = 0.05$. From this we do not have significant evidence to suggest the mean problem solving score is different among treatment groups with a level of statistical significance.
 
 # Limitations
 
@@ -240,10 +262,10 @@ ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
 
 # Figure 2, 3: Normality and Variance Homogeneity Graphs
 # for one and two factor ANOVA
-one_factor_model <- aov(score ~ data$treatment, data = data)
+one_factor_model <- aov(score ~ treatment, data = data)
 check_model(one_factor_model, check = c("normality", "homogeneity"))  
 
-two_factor_model <- aov(score ~ data$treatment + data$age_group, data = data)
+two_factor_model <- aov(score ~ treatment + data$age_group, data = data)
 check_model(two_factor_model, check = c("normality", "homogeneity")) 
 
 # Print results of assumption checks:
@@ -262,4 +284,12 @@ print(normality_results2)
 # 2. Check homogeneity of variances for the two-factor model
 hetero_results2 <- check_heteroscedasticity(two_factor_model)
 print(hetero_results2)
+
+# Perform K-W Test
+non_par <- kruskal.test(score~treatment, data)
+formatted <- as.data.frame(tidy(non_par))
+formatted$method <- NULL
+col_names <- c("H-Statistic", "P Value", "DF")
+kable(formatted, col.names = col_names, 
+      caption = "Kruskal-Wallis H-Test")
 ```
