@@ -13,7 +13,7 @@ header-includes:
   - \usepackage{amssymb}
   - \usepackage{pgfplots}
   - \usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry}
-abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness. The goal of our study is to determine if there is an association between caffeine use and problem solving skills. We collected data using The Islands, a virtual population for testing experiments. After collecting a sample of 150 participants from The Islands,one of five different beverage options were administered each participant to reveal the following: [summary of key findings]. [brief overview of results, improvments]."
+abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness, which is why the goal of our study is to determine if there is an association between caffeine use and problem solving skills. We collected data using The Islands, a virtual population for conducting experiments. After collecting a sample of 150 virtual participants and splitting them into three age groups, either  250 mL of water, an energy drink, coffee or caffeine-free versions of the latter two were administered to each participant. Using a balanced one-way ANOVA, we found that [summary of key findings]. [brief overview of result implications, improvments needed]."
 format: pdf
 number-sections: true
 toc: true
@@ -147,7 +147,7 @@ Before proceeding with planning analysis, we must check the three assumptions fo
 
 For our tests we decided to do a one-factor test (with just the treatments as a factor) and a
 two-factor test (with the blocking factor of age also added as a factor). For both tests, we
-found that assumptions of normality and homogeneity of variance were heavily violated.
+found that the assumptions of homogeneity of variance and, in particular, normality of residuals were violated.
 
 ```{r, fig.pos='H'}
 #| echo: false
@@ -156,8 +156,8 @@ found that assumptions of normality and homogeneity of variance were heavily vio
 #| message: false
 #| label: fig-graphs
 
-# Generating the graphs to check for normality and homogeneity assumptions
-# for the one-factor ANOVA model and the two-factor ANOVA model
+# Figure 2, 3: Normality and Variance Homogeneity Graphs
+# for one and two factor ANOVA
 
 one_factor_model <- aov(score ~ data$treatment, data = data)
 check_model(one_factor_model, check = c("normality", "homogeneity"))  
@@ -236,8 +236,8 @@ ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
   scale_fill_brewer(palette = "Dark2", breaks = age, labels = age) +
   theme_minimal()
 
-# Generating the graphs to check for normality and homogeneity assumptions
-# for the one-factor ANOVA model and the two-factor ANOVA model
+# Figure 2, 3: Normality and Variance Homogeneity Graphs
+# for one and two factor ANOVA
 one_factor_model <- aov(score ~ data$treatment, data = data)
 check_model(one_factor_model, check = c("normality", "homogeneity"))  
 
