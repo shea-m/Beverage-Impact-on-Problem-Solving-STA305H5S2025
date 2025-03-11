@@ -173,7 +173,9 @@ Due to the violations of the normality and equal variance assumptions, we use a 
 
 # Limitations
 
-Despite the depth provided by The Islands for conducting an experiment, using a virtual population is a major limitation in assessing the impact of caffeine on the problem solving skills of real people. This is because it does not take all of the countless real life factors that impact caffeine into account. Meaning, our experiment may not be incredibly relevant to the real world. Furthermore, after giving each participant their beverage, we did not wait before administering their problem solving test. Waiting would have allowed for more absorption of caffeine and therefore a better look into its impact.
+One thing we should have done differently was waiting after giving each participant their beverage. We did not wait long enough before administering their problem solving test. Waiting would have allowed for more absorption of caffeine and therefore a better look into its impact.
+
+Additionally, despite the depth provided by The Islands for conducting an experiment, using a virtual population is a major limitation in assessing the impact of caffeine on the problem solving skills of real people. This is because it does not take all of the countless real life factors that impact caffeine into account. Meaning, our experiment may not be incredibly relevant to the real world.
 
 # Conclusion
 
