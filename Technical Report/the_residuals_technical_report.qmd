@@ -94,7 +94,6 @@ In an effort to maintain some degree of controlling, we selected all participant
 
 Our participant sample included 150 participants $(n = 150)$, with 50 in each of the following age blocks: 18-35, 36-54, and 55+. Each participant was given one of five 250 millilitre drinks: Water (Control), Energy Drink, Energy Drink Decaffeinated, Coffee, or Coffee Decaffeinated. There were a total of 30 participants per treatment factor, with 10 in each age group, thereby replicating and ensuring a balanced design. After each participant was given their drink, a twenty minute problem solving test was administered with their scores record from 0 to 100. Since each participant was exposed to only one treatment and randomly assigned to a treatment group, this experiment utilized a between-subjects design.
 
-
 # Analysis
 
 ## Summary Statistics and Checking Assumptions
@@ -174,11 +173,10 @@ Due to the violations of the normality and equal variance assumptions, we use a 
 
 # Limitations
 
-- Talk about how administering problem solving right after treatment could affect results?
-
-Despite the depth provided by The Islands for conducting an experiment, using a virtual population is a major limitation in assessing the impact of caffeine on the problem solving skills of real people. This is because it does not take all of the countless real life factors that impact caffeine into account. Meaning, our experiment may not be incredibly relevant to the real world. Furthermore, we did not wait after giving each participant their beverage before administering their problem solving test. Waiting would have allowed for more absorption of caffeine and therefore a better look into its impact.
+Despite the depth provided by The Islands for conducting an experiment, using a virtual population is a major limitation in assessing the impact of caffeine on the problem solving skills of real people. This is because it does not take all of the countless real life factors that impact caffeine into account. Meaning, our experiment may not be incredibly relevant to the real world. Furthermore, after giving each participant their beverage, we did not wait before administering their problem solving test. Waiting would have allowed for more absorption of caffeine and therefore a better look into its impact.
 
 # Conclusion
+
 This study aimed to examine the potential association between caffeine consumption through various beverages and problem-solving performance scores among virtual participants in The Islands. Analysis from a sample of 150 participants showed [include key findings.]
 
 # Appendix
