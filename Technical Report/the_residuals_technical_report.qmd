@@ -176,7 +176,7 @@ Due to the violations of the normality and equal variance assumptions, we use a 
 
 - Talk about how administering problem solving right after treatment could affect results?
 
-Despite the detail and depth of The Islands, using a virtual population is a major limitation in assessing the impact of caffeine on the problem solving skills of real people. This is because it does not take all of the countless real life factors that impact caffeine into account. Meaning, our experiment may not be incredibly relevant to the real world. Furthermore, 
+Despite the depth provided by The Islands for conducting an experiment, using a virtual population is a major limitation in assessing the impact of caffeine on the problem solving skills of real people. This is because it does not take all of the countless real life factors that impact caffeine into account. Meaning, our experiment may not be incredibly relevant to the real world. Furthermore, we did not wait after giving each participant their beverage. Waiting would have allowed for more absorption of caffeine and therefore a better look into its impact.
 
 # Conclusion
 This study aimed to examine the potential association between caffeine consumption through various beverages and problem-solving performance scores among virtual participants in The Islands. Analysis from a sample of 150 participants showed [include key findings.]
