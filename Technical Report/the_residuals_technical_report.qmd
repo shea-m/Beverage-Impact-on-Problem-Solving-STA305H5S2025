@@ -19,10 +19,6 @@ number-sections: true
 toc: true
 ---
 
-#TODO:
-- Fix label references
-- choose proper model (one way or two way?)
-
 \newpage
 
 ```{r}
@@ -72,37 +68,31 @@ We aim to study the following research questions:
 
 -   RQ1: Does beverage type have an impact on problem solving score?
 
-    -   Null hypothesis: no association between beverage type and problem solving score.
+    - $H_{0}$: no association between beverage type and problem solving score.
 
-    -   Alternate hypothesis: association between beverage type and problem solving score exists.
+    - $H_{a}$: association between beverage type and problem solving score exists.
 
--   RQ2: Is there an association between the age group the participant belongs to, and the beverage type, on their problem solving scores.
+-   RQ2: Do caffeinated coffee and energy drinks have a higher impact on problem solving scores compared to their caffeine-free counterparts?
 
-    -   Null hypothesis: no association between age group and beverage type on problem solving score.
+    - $H_{0}$: no association between caffeinated drinks and higher score
 
-    -   Alternate hypothesis: association between age group and beverage type on problem solving score exists.
-
--   RQ3: Do caffeinated coffee and energy drinks have a higher impact on problem solving scores compared to their caffeine-free counterparts?
-
-    -   Null hypothesis: no association between caffeinated drinks and higher score
-
-    -   Alternate hypothesis: association between caffeinated drinks and higher score exists.
+    - $H_{a}$: association between caffeinated drinks and higher score exists.
 
 This paper consist of our methodology, analysis, results, limitations, and a conclusion for our study.
 
 # Methodology
 
-In February 2025, we conducted an experiment to determine if different caffeinated and caffeine-free drinks effect the problem solving skills of virtual participants on The Islands. Our experiment utilized a balanced one-way ANOVA design. The factor was the drink given to each participant and the response variable was a participant's score on a twenty minute problem solving test.
+In February 2025, we conducted an experiment to determine if different caffeinated and caffeine-free drinks effect the problem solving skills of virtual participants on The Islands. Our experiment utilized a balanced one-way design. The factor was the drink given to each participant and the response variable was a participant's score on a twenty minute problem solving test.
 
-In an effort to maintain some degree of controlling, we selected all participants from the same town in The Islands called Nidoma. However, because there were not many significant factors that could easily be controlled, we opted to primarily use blocking. The participants were blocked into three age groups, with each age group receiving an equal amount of each treatment. To help account for factors that could not be controlled or blocked, we randomly assigned treatments among the participants using an R script (see appendix).
+Our design blocked participants into three age groups, with each age group containing an equal number of participants for each treatment. To help account for nuisance factors that were unable to be controlled or blocked, we randomly assigned treatments among participants using an R script (See [@lst-rand] in Appendix).
 
-Our participant sample included 150 participants $(n = 150)$, with 50 in each of the following age blocks: 18-35, 36-54, and 55+. Each participant was given one of five 250 millilitre drinks: Water (Control), Energy Drink, Energy Drink Decaffeinated, Coffee, or Coffee Decaffeinated. There were a total of 30 participants per treatment factor, with 10 in each age group, thereby replicating and ensuring a balanced design. After each participant was given their drink, a twenty minute problem solving test was administered with their scores record from 0 to 100. Since each participant was exposed to only one treatment and randomly assigned to a treatment group, this experiment utilized a between-subjects design.
+Our participant sample included 150 participants $(n = 150)$, with 50 in each of the following age blocks: 18-35, 36-54, and 55+. Each participant was given one of five 250 millilitre drinks: Water (Control), Energy Drink, Energy Drink Decaffeinated, Coffee, or Coffee Decaffeinated. There were a total of 30 participants per treatment factor, with 10 in each age group, thereby ensuring and balanced design and providing enough repetitions of each treatment. After each participant was given their drink, a twenty minute problem solving test was administered with their scores record from 0 to 100. Since each participant was exposed to only one treatment and randomly assigned to a treatment group, this experiment utilized a between-subjects design.
 
 # Analysis
 
 ## Summary Statistics and Checking Assumptions
 
-We began by summarizing statistics of our data, presented in @tbl-table1. The high mean and median indicate that participants generally scored well on the problem solving test. Additionally, the low standard deviation and IQR indicate that the scores were tightly clustered around the mean with little variation. The minimum of 67, which lies well outside of 1.5 $\times$ IQR, indicates the presence of outliers, the amount of which would need further inspection to be determined. Since the maximum of 100 lies within 1.5 $\times$ IQR, we can determine that any outliers present are on the lower side.
+We began by summarizing statistics of our data, presented in @tbl-table1. The high mean and median indicate that participants generally scored well on the problem solving test. A low standard deviation indicates tight clustering around the mean and a low IQR indicates tight clustering around the median. This confirms the indication of similar mean and median. The minimum of 67 lies well outside of 1.5 $\times$ IQR, indicating a presence of outliers on the low side, with further inspection necessary to determine the amount. The maximum of 100 along with the data being skewed means that there are no outliers present on the high end.  
 
 ```{r}
 #| echo: false
@@ -120,20 +110,88 @@ labs <- c("Min", "Max", "Mean", "Median", "SD", "IQR")
 kable(t(sum_data), col.names = labs, align = "c")
 ```
 
-Further preliminary information can be gained upon graphing the scores using box plots in @fig-boxplots.
+More preliminary information is obtained plotting the treatments in relation to scores in @fig-boxplot1.
 
-```{r, fig.pos='H', fig.width=10, fig.height=5}
+```{r, fig.width=10, fig.height=6}
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
-#| label: fig-boxplots
+#| label: fig-boxplot1
+#| fig-cap: Boxplot of Scores by Treatment
+ 
+ggplot(data, aes(x = treatment, y = score, fill = treatment)) +
+  geom_boxplot() +
+  scale_x_discrete(labels = c("Coffee", "Coffee (Decaf)", "Energy Drink",
+                              "Energy Drink (Decaf)", "Water")) +
+  scale_y_continuous(limits = c(60, 100)) +
+  scale_fill_brewer(palette = "Set1") +
+  labs(title = "Problem Solving Scores Categorized by Drink",
+  x = "Treatment (Drink Type)", y = "Problem Solving Test Score") +
+  theme(legend.position = "none")
+```
+From the boxplot, we can make an initial inference that the means are likely similar among groups, however the variances are different. Further analysis will confirm these findings. Before we can confirm our initial inference of means, we must check the three assumptions for our planned one-way ANOVA: independence, normally distributed, and equal variance. The first assumption of independence is satisfied by design. All data points are collected from unique individuals whose results do not depend on the others. We next check normality and homogeneity of variance. From the test below in @fig-checks we see that both of these assumptions are violated.
+
+```{r, fig.pos='H'}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: fig-checks
+
+# Figure 2, 3: Normality and Variance Homogeneity Graphs
+# for one and two factor ANOVA
+
+one_factor_model <- aov(score ~ treatment, data = data)
+check_model(one_factor_model, check = c("normality", "homogeneity"))  
+```
+
+## Statistical Tests
+
+As the assumption of normality and homogeneity of variance have been violated, we are unable to use a one-way ANOVA test. Instead, we opt to use Kruskal-Wallis non-parametric H-test utilizing the treatment type (beverage given) as our factor. The results of the Kruskal-Wallis H-test are displayed below in @tbl-kwtest.
+
+```{r, fig.pos='H'}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: tbl-kwtest
+non_par <- kruskal.test(score~treatment, data)
+formatted <- as.data.frame(tidy(non_par))
+formatted$method <- NULL
+col_names <- c("H-Statistic", "P Value", "DF")
+kable(formatted, col.names = col_names, 
+      caption = "Kruskal-Wallis H-Test")
+
+```
+
+
+# Results
+
+From @tbl-kwtest we find a p-value for the Kruskal-Wallis H-test is 0.7735. This p-value is significantly greater than our significance level of $\alpha = 0.05$. As a result, there is not any statistically significant level evidence to suggest the mean problem solving score is different among treatment groups. This result is to be expected as it confirms the initial results inferred from @fig-boxplot1.
+
+Since there we're no significant results, no further followup was necessary for RQ2. If there were statistically significant differences in caffeinated vs non-caffeinated beverages, we would have also seen statistically significant evidence that the means among drinks was not equal.
+
+# Limitations
+
+This study had a number of limitations. One thing that should have done differently was waiting after giving each participant their beverage before administering the problem solving test. We administered the test immediately after giving participants their treatment, which could have impacted results. Waiting would have allowed for more absorption of caffeine and therefore a better look into its impact.
+
+Additionally, despite the depth provided by The Islands for conducting an experiment, using a virtual population is a major limitation in assessing the impact of caffeine on the problem solving skills of real people. This is because it does not take all of the countless real life factors that impact caffeine into account. Further, we do not know exactly the implementation of the problem solving quiz or the drinks, resulting in a significant level of unknown. As a result, our experiment may not be incredibly relevant to the real world.
+
+The final major limitation we had was the model used. We would have like to utilize a two-way ANOVA model, with drink and age as factors, as @fig-dblboxplot indicates there might be some difference among different drinks between age groups.
+
+```{r, fig.pos='H', fig.width=10, fig.height=6.5}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| label: fig-dblboxplot
 #| fig-cap: Box Plot Showing Problem Solving Scores by Drink and Age Group
 
 # Figure 1: Problem Solving By Drink and Age Group
 
 tr <- c("Water (Control)", "Energy Drink", "Energy Drink (Decaf)", "Coffee", 
-        "Coffee (Decaf")
+        "Coffee (Decaf)")
 age <- c("18-35", "36-54", "55+")
 ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
   geom_boxplot(position = position_dodge(width = 0.8)) + 
@@ -146,64 +204,36 @@ ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
   theme_minimal()
 ```
 
-Before proceeding with planning analysis, we must check the three assumptions for a one-way ANOVA: independence, normally distributed, and equal variance.
-
-The first assumption of independence is satisfied. All data points are collected from unique individuals whos results do not depend on the others. 
-
-For our tests we decided to do a one-factor test (with just the treatments as a factor) and a
-two-factor test (with the blocking factor of age also added as a factor). For both tests, we
-found that the assumptions of homogeneity of variance and, in particular, normality of residuals were violated.
+Unfortunately, similar to one-way, our assumptions for both normality and homogeneity of variance were violated, shown in @fig-twowaychecks. Due to the challenge of implementing a non-parametric two-way ANOVA test and because of time constraints, we were unfortunately unable to implement this model and had to instead utilize the one-way Kruskal-Wallis model.
 
 ```{r, fig.pos='H'}
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
-#| label: fig-graphs
+#| label: fig-twowaychecks
 
 # Figure 2, 3: Normality and Variance Homogeneity Graphs
 # for one and two factor ANOVA
 
-one_factor_model <- aov(score ~ treatment, data = data)
-check_model(one_factor_model, check = c("normality", "homogeneity"))  
-
 two_factor_model <- aov(score ~ treatment + age_group, data = data)
 check_model(two_factor_model, check = c("normality", "homogeneity")) 
 ```
-
-## Statistical Tests
-
-Since the assumption of normality and homogenity of variance are violated, we opt for a Kruskal-Wallis non parametric test. The results of the test are displayed in @fig-kw
-```{r, fig.pos='H'}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#| label: fig-kw
-non_par <- kruskal.test(score~treatment, data)
-formatted <- as.data.frame(tidy(non_par))
-formatted$method <- NULL
-col_names <- c("H-Statistic", "P Value", "DF")
-kable(formatted, col.names = col_names, 
-      caption = "Kruskal-Wallis H-Test")
-
-```
-
-
-# Results
-From @fig-kw we have that our p-value for the Kruskal-Wallis non parametric test is 0.7735. This well exceeds the significance level of $\alpha = 0.05$. From this we do not have significant evidence to suggest the mean problem solving score is different among treatment groups with a level of statistical significance.
-
-# Limitations
-
-One thing we should have done differently was waiting after giving each participant their beverage. We did not wait long enough before administering their problem solving test. Waiting would have allowed for more absorption of caffeine and therefore a better look into its impact.
-
-Additionally, despite the depth provided by The Islands for conducting an experiment, using a virtual population is a major limitation in assessing the impact of caffeine on the problem solving skills of real people. This is because it does not take all of the countless real life factors that impact caffeine into account. Meaning, our experiment may not be incredibly relevant to the real world.
 
 # Conclusion
 
 This study aimed to examine the potential association between caffeine consumption through various beverages and problem-solving performance scores among virtual participants in The Islands. Analysis from a sample of 150 participants showed [include key findings.]
 
 # Appendix
+
+```{#lst-rand .R lst-cap="Randomization Script for Assigning Treatments"}
+library(clipr)
+groups <- c("Water", "Coffee", "Coffee (Decaf)", "Energy Drink", 
+          "Energy Drink (Decaf)")
+labels <- rep(groups, 10)
+shuffled <- sample(labels)
+write_clip(shuffled, type = "text")
+```
 
 ```{r}
 #| eval: false
@@ -293,3 +323,5 @@ col_names <- c("H-Statistic", "P Value", "DF")
 kable(formatted, col.names = col_names, 
       caption = "Kruskal-Wallis H-Test")
 ```
+
+
