@@ -46,7 +46,7 @@ library(broom)
 # Load the Data
 data <- read.csv("cleaned_data.csv", header = TRUE)
 
-# Set Factor levels to display in desired order
+# Put factor levels in desired order
 data$age_group <- factor(data$age_group, 
                          levels = c("Y", "M", "O"), 
                          labels = c("18-35", "36-54", "55+"))
@@ -102,8 +102,6 @@ We began by summarizing statistics of our data, presented in @tbl-table1. The hi
 #| label: tbl-table1
 #| tbl-cap: Summary of Problem Solving Test Scores
 
-# Table 1: Summary of Problem Solving Test Scores
-
 sum_data <- data.frame(Value = c(min(score), max(score), round(mean(score), 4), 
                                  median(score), round(sd(score), 4), IQR(score)))
 labs <- c("Min", "Max", "Mean", "Median", "SD", "IQR")
@@ -122,12 +120,11 @@ More preliminary information is obtained plotting the treatments in relation to 
  
 ggplot(data, aes(x = treatment, y = score, fill = treatment)) +
   geom_boxplot() +
-  scale_x_discrete(labels = c("Coffee", "Coffee (Decaf)", "Energy Drink",
-                              "Energy Drink (Decaf)", "Water")) +
   scale_y_continuous(limits = c(60, 100)) +
-  scale_fill_brewer(palette = "Set1") +
+  scale_fill_brewer(palette = "Blues") +
   labs(title = "Problem Solving Scores Categorized by Drink",
   x = "Treatment (Drink Type)", y = "Problem Solving Test Score") +
+  theme_minimal() +
   theme(legend.position = "none")
 ```
 From the boxplot, we can make an initial inference that the means are likely similar among groups, however the variances are different. Further analysis will confirm these findings. Before we can confirm our initial inference of means, we must check the three assumptions for our planned one-way ANOVA: independence, normally distributed, and equal variance. The first assumption of independence is satisfied by design. All data points are collected from unique individuals whose results do not depend on the others. We next check normality and homogeneity of variance. From the test below in @fig-checks we see that both of these assumptions are violated.
@@ -139,11 +136,8 @@ From the boxplot, we can make an initial inference that the means are likely sim
 #| message: false
 #| label: fig-checks
 
-# Figure 2, 3: Normality and Variance Homogeneity Graphs
-# for one and two factor ANOVA
-
 one_factor_model <- aov(score ~ treatment, data = data)
-check_model(one_factor_model, check = c("normality", "homogeneity"))  
+check_model(one_factor_model, check = c("normality", "homogeneity"))
 ```
 
 ## Statistical Tests
@@ -156,13 +150,13 @@ As the assumption of normality and homogeneity of variance have been violated, w
 #| warning: false
 #| message: false
 #| label: tbl-kwtest
+
 non_par <- kruskal.test(score~treatment, data)
 formatted <- as.data.frame(tidy(non_par))
 formatted$method <- NULL
 col_names <- c("H-Statistic", "P Value", "DF")
 kable(formatted, col.names = col_names, 
       caption = "Kruskal-Wallis H-Test")
-
 ```
 
 
@@ -188,19 +182,14 @@ The final major limitation we had was the model used. We would have like to util
 #| label: fig-dblboxplot
 #| fig-cap: Box Plot Showing Problem Solving Scores by Drink and Age Group
 
-# Figure 1: Problem Solving By Drink and Age Group
-
-tr <- c("Water (Control)", "Energy Drink", "Energy Drink (Decaf)", "Coffee", 
-        "Coffee (Decaf)")
 age <- c("18-35", "36-54", "55+")
 ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
   geom_boxplot(position = position_dodge(width = 0.8)) + 
-  scale_x_discrete(labels = tr) + 
   scale_y_continuous(limits = c(60, 100)) + 
   labs(title = "Problem Solving Scores by Drink and Age Group",
        x = "Treatment (Drink Type)", y = "Problem Solving Test Scores",
        fill = "Age Group") + 
-  scale_fill_brewer(palette = "Dark2", breaks = age, labels = age) +
+  scale_fill_brewer(palette = "Blues", breaks = age, labels = age) +
   theme_minimal()
 ```
 
@@ -212,9 +201,6 @@ Unfortunately, similar to one-way, our assumptions for both normality and homoge
 #| warning: false
 #| message: false
 #| label: fig-twowaychecks
-
-# Figure 2, 3: Normality and Variance Homogeneity Graphs
-# for one and two factor ANOVA
 
 two_factor_model <- aov(score ~ treatment + age_group, data = data)
 check_model(two_factor_model, check = c("normality", "homogeneity")) 
@@ -240,25 +226,26 @@ write_clip(shuffled, type = "text")
 #| warning: false
 #| message: false
 
-# Install necessary libraries
-packages <- c("tidyverse", "patchwork", "performance", "knitr")
+# Ensure necessary packages are installed and loaded
+packages <- c("tidyverse", "patchwork", "performance", "knitr", "see", 
+              "kableExtra", "broom")
 for(pkg in packages) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
     install.packages(pkg)
   }
 }
-
-# Load libraries
 library(tidyverse)
 library(patchwork)
 library(performance)
 library(knitr)
+library(see)
+library(kableExtra)
+library(broom)
 
-# Load data, cleaned_data.csv
-# data <- read.csv("cleaned_data.csv", header = TRUE)
-data <-read.csv(file.choose())
+# Load the Data
+data <- read.csv("cleaned_data.csv", header = TRUE)
 
-# Set factor levels to display in desired order
+# Put factor levels in desired order
 data$age_group <- factor(data$age_group, 
                          levels = c("Y", "M", "O"), 
                          labels = c("18-35", "36-54", "55+"))
@@ -269,59 +256,45 @@ data$treatment <- factor(data$treatment,
                                     "Coffee (Decaf)"))
 attach(data)
 
-# Table 1: Summary of Problem Solving Test Scores
+# Generate table for score summary data
 sum_data <- data.frame(Value = c(min(score), max(score), round(mean(score), 4), 
                                  median(score), round(sd(score), 4), IQR(score)))
 labs <- c("Min", "Max", "Mean", "Median", "SD", "IQR")
-kable(t(sum_data), col.names = labs, align = "c",
-      caption = "Summary of Problem Solving Test Scores")
+kable(t(sum_data), col.names = labs, align = "c")
 
-# Figure 1: Problem Solving By Drink and Age Group
-tr <- c("Water (Control)", "Energy Drink", "Energy Drink (Decaf)", "Coffee", 
-        "Coffee (Decaf")
-age <- c("18-35", "36-54", "55+")
-ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
-  geom_boxplot(position = position_dodge(width = 0.8)) + 
-  scale_x_discrete(labels = tr) + 
-  scale_y_continuous(limits = c(60, 100)) + 
-  labs(title = "Problem Solving Scores by Drink and Age Group",
-       x = "Treatment (Drink Type)", y = "Problem Solving Test Scores",
-       fill = "Age Group") + 
-  scale_fill_brewer(palette = "Dark2", breaks = age, labels = age) +
-  theme_minimal()
+# Generate boxplot for scores explained by drink
+ggplot(data, aes(x = treatment, y = score, fill = treatment)) +
+  geom_boxplot() +
+  scale_y_continuous(limits = c(60, 100)) +
+  scale_fill_brewer(palette = "Set1") +
+  labs(title = "Problem Solving Scores Categorized by Drink",
+  x = "Treatment (Drink Type)", y = "Problem Solving Test Score") +
+  theme(legend.position = "none")
 
-# Figure 2, 3: Normality and Variance Homogeneity Graphs
-# for one and two factor ANOVA
+# Check assumptions for one-way model
 one_factor_model <- aov(score ~ treatment, data = data)
 check_model(one_factor_model, check = c("normality", "homogeneity"))  
 
-two_factor_model <- aov(score ~ treatment + data$age_group, data = data)
-check_model(two_factor_model, check = c("normality", "homogeneity")) 
-
-# Print results of assumption checks:
-# 1. Check normality of residuals for the one-factor model
-normality_results1 <- check_normality(one_factor_model)
-print(normality_results1)
-
-# 2. Check homogeneity of variances for the one-factor model
-hetero_results1 <- check_heteroscedasticity(one_factor_model)
-print(hetero_results1)
-
-# 1. Check normality of residuals for the one-factor model again
-normality_results2 <- check_normality(one_factor_model)
-print(normality_results2)
-
-# 2. Check homogeneity of variances for the two-factor model
-hetero_results2 <- check_heteroscedasticity(two_factor_model)
-print(hetero_results2)
-
-# Perform K-W Test
+# Perform non-parametric K-W test
 non_par <- kruskal.test(score~treatment, data)
 formatted <- as.data.frame(tidy(non_par))
 formatted$method <- NULL
 col_names <- c("H-Statistic", "P Value", "DF")
 kable(formatted, col.names = col_names, 
       caption = "Kruskal-Wallis H-Test")
+
+# Generate boxplot for scores explained by drink and age
+age <- c("18-35", "36-54", "55+")
+ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
+  geom_boxplot(position = position_dodge(width = 0.8)) + 
+  scale_y_continuous(limits = c(60, 100)) + 
+  labs(title = "Problem Solving Scores by Drink and Age Group",
+       x = "Treatment (Drink Type)", y = "Problem Solving Test Scores",
+       fill = "Age Group") + 
+  scale_fill_brewer(palette = "Blues", breaks = age, labels = age) +
+  theme_minimal()
+
+# Check assumptions for 2 factor model
+two_factor_model <- aov(score ~ treatment + age_group, data = data)
+check_model(two_factor_model, check = c("normality", "homogeneity")) 
 ```
-
-

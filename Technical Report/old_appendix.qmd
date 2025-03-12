@@ -1,0 +1,184 @@
+---
+title: "Alternate appendix"
+format: html
+---
+
+# Fixed Appendix (old style)
+
+```{#lst-rand .R lst-cap="Randomization Script for Assigning Treatments"}
+library(clipr)
+groups <- c("Water", "Coffee", "Coffee (Decaf)", "Energy Drink", 
+          "Energy Drink (Decaf)")
+labels <- rep(groups, 10)
+shuffled <- sample(labels)
+write_clip(shuffled, type = "text")
+```
+
+```{r}
+#| eval: false
+#| warning: false
+#| message: false
+
+# Ensure necessary packages are installed and loaded
+packages <- c("tidyverse", "patchwork", "performance", "knitr", "see", 
+              "kableExtra", "broom")
+for(pkg in packages) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+  }
+}
+library(tidyverse)
+library(patchwork)
+library(performance)
+library(knitr)
+library(see)
+library(kableExtra)
+library(broom)
+
+# Load the Data
+data <- read.csv("cleaned_data.csv", header = TRUE)
+
+# Put factor levels in desired order
+data$age_group <- factor(data$age_group, 
+                         levels = c("Y", "M", "O"), 
+                         labels = c("18-35", "36-54", "55+"))
+data$treatment <- factor(data$treatment, 
+                         levels = c("W", "E", "ED", "C", "CD"), 
+                         labels = c("Water (Control)", "Energy Drink", 
+                                    "Energy Drink (Decaf)", "Coffee", 
+                                    "Coffee (Decaf)"))
+attach(data)
+
+# Generate table for score summary data
+sum_data <- data.frame(Value = c(min(score), max(score), round(mean(score), 4), 
+                                 median(score), round(sd(score), 4), IQR(score)))
+labs <- c("Min", "Max", "Mean", "Median", "SD", "IQR")
+kable(t(sum_data), col.names = labs, align = "c")
+
+# Generate boxplot for scores explained by drink
+ggplot(data, aes(x = treatment, y = score, fill = treatment)) +
+  geom_boxplot() +
+  scale_y_continuous(limits = c(60, 100)) +
+  scale_fill_brewer(palette = "Set1") +
+  labs(title = "Problem Solving Scores Categorized by Drink",
+  x = "Treatment (Drink Type)", y = "Problem Solving Test Score") +
+  theme(legend.position = "none")
+
+# Check assumptions for one-way model
+one_factor_model <- aov(score ~ treatment, data = data)
+check_model(one_factor_model, check = c("normality", "homogeneity"))  
+
+# Perform non-parametric K-W test
+non_par <- kruskal.test(score~treatment, data)
+formatted <- as.data.frame(tidy(non_par))
+formatted$method <- NULL
+col_names <- c("H-Statistic", "P Value", "DF")
+kable(formatted, col.names = col_names, 
+      caption = "Kruskal-Wallis H-Test")
+
+# Generate boxplot for scores explained by drink and age
+age <- c("18-35", "36-54", "55+")
+ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
+  geom_boxplot(position = position_dodge(width = 0.8)) + 
+  scale_y_continuous(limits = c(60, 100)) + 
+  labs(title = "Problem Solving Scores by Drink and Age Group",
+       x = "Treatment (Drink Type)", y = "Problem Solving Test Scores",
+       fill = "Age Group") + 
+  scale_fill_brewer(palette = "Blues", breaks = age, labels = age) +
+  theme_minimal()
+
+# Check assumptions for 2 factor model
+two_factor_model <- aov(score ~ treatment + age_group, data = data)
+check_model(two_factor_model, check = c("normality", "homogeneity")) 
+```
+
+# Appendix (with listings)
+
+```{#lst-rand .R lst-cap="Randomization Script for Assigning Treatments"}
+library(clipr)
+groups <- c("Water", "Coffee", "Coffee (Decaf)", "Energy Drink", 
+          "Energy Drink (Decaf)")
+labels <- rep(groups, 10)
+shuffled <- sample(labels)
+write_clip(shuffled, type = "text")
+```
+
+```{#lst-pckg .R lst-cap="Library Loading and Data Prep"}
+# Ensure necessary packages are installed and loaded
+packages <- c("tidyverse", "patchwork", "performance", "knitr", "see", 
+              "kableExtra", "broom")
+for(pkg in packages) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+  }
+}
+library(tidyverse)
+library(patchwork)
+library(performance)
+library(knitr)
+library(see)
+library(kableExtra)
+library(broom)
+
+# Load the Data
+data <- read.csv("cleaned_data.csv", header = TRUE)
+
+# Put factor levels in desired order
+data$age_group <- factor(data$age_group, 
+                         levels = c("Y", "M", "O"), 
+                         labels = c("18-35", "36-54", "55+"))
+data$treatment <- factor(data$treatment, 
+                         levels = c("W", "E", "ED", "C", "CD"), 
+                         labels = c("Water (Control)", "Energy Drink", 
+                                    "Energy Drink (Decaf)", "Coffee", 
+                                    "Coffee (Decaf)"))
+attach(data)
+```
+
+```{#lst-summary .R lst-cap="Summary Statistic Table"}
+sum_data <- data.frame(Value = c(min(score), max(score), round(mean(score), 4), 
+                                 median(score), round(sd(score), 4), IQR(score)))
+labs <- c("Min", "Max", "Mean", "Median", "SD", "IQR")
+kable(t(sum_data), col.names = labs, align = "c")
+```
+
+```{#lst-boxplot1 .R lst-cap="Boxplot for Score by Treatment"}
+ggplot(data, aes(x = treatment, y = score, fill = treatment)) +
+  geom_boxplot() +
+  scale_y_continuous(limits = c(60, 100)) +
+  scale_fill_brewer(palette = "Set1") +
+  labs(title = "Problem Solving Scores Categorized by Drink",
+  x = "Treatment (Drink Type)", y = "Problem Solving Test Score") +
+  theme(legend.position = "none")
+```
+
+```{#lst-anovcheck .R lst-cap="Check Assumptions for One-Way ANOVA"}
+one_factor_model <- aov(score ~ treatment, data = data)
+check_model(one_factor_model, check = c("normality", "homogeneity"))  
+```
+
+```{#lst-kwtest .R lst-cap="Carry out Kruskal-Wallis H-Test"}
+non_par <- kruskal.test(score~treatment, data)
+formatted <- as.data.frame(tidy(non_par))
+formatted$method <- NULL
+col_names <- c("H-Statistic", "P Value", "DF")
+kable(formatted, col.names = col_names, 
+      caption = "Kruskal-Wallis H-Test")
+```
+
+```{#lst-boxplot2 .R lst-cap="Boxplot for Score by Treatment and Age"}
+age <- c("18-35", "36-54", "55+")
+ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
+  geom_boxplot(position = position_dodge(width = 0.8)) + 
+  scale_y_continuous(limits = c(60, 100)) + 
+  labs(title = "Problem Solving Scores by Drink and Age Group",
+       x = "Treatment (Drink Type)", y = "Problem Solving Test Scores",
+       fill = "Age Group") + 
+  scale_fill_brewer(palette = "Blues", breaks = age, labels = age) +
+  theme_minimal()
+```
+
+```{#lst-anovchecktwo .R lst-cap="Checking assumptions for Two-Way ANOVA"}
+two_factor_model <- aov(score ~ treatment + age_group, data = data)
+check_model(two_factor_model, check = c("normality", "homogeneity")) 
+```
