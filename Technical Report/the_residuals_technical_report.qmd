@@ -13,15 +13,11 @@ header-includes:
   - \usepackage{amssymb}
   - \usepackage{pgfplots}
   - \usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry}
-abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness, which is why the goal of our study is to determine if there is an association between caffeine use and problem solving skills. We collected data using The Islands, a virtual population for conducting experiments. After collecting a sample of 150 virtual participants and splitting them into three age groups, either  250 mL of water, an energy drink, coffee or caffeine-free versions of the latter two were administered to each participant. Using a balanced one-way ANOVA, we found that [summary of key findings]. [brief overview of result implications, improvments needed]."
+abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness, which is why the goal of our study is to determine if there is an association between caffeine use and problem solving skills. We collected data using a virtual population on The Islands. After collecting a sample of 150 virtual participants and splitting them into three age groups, a caffeinated or caffeine-free drink, with water as a control, were administered to each participant. Using a balanced Kruskal-Wallis test, we found that [summary of key findings]. [brief overview of result implications, improvments needed]."
 format: pdf
 number-sections: true
 toc: true
 ---
-
-#TODO:
-- Fix label references
-- choose proper model (one way or two way?)
 
 \newpage
 
@@ -92,7 +88,7 @@ This paper consist of our methodology, analysis, results, limitations, and a con
 
 # Methodology
 
-In February 2025, we conducted an experiment to determine if different caffeinated and caffeine-free drinks effect the problem solving skills of virtual participants on The Islands. Our experiment utilized a balanced one-way ANOVA design. The factor was the drink given to each participant and the response variable was a participant's score on a twenty minute problem solving test.
+In February 2025, we conducted an experiment to determine if different caffeinated and caffeine-free drinks effect the problem solving skills of virtual participants on The Islands. Our experiment utilized a balanced Kruskal-Wallis test. The factor was the drink given to each participant and the response variable was a participant's score on a twenty minute problem solving test.
 
 In an effort to maintain some degree of controlling, we selected all participants from the same town in The Islands called Nidoma. However, because there were not many significant factors that could easily be controlled, we opted to primarily use blocking. The participants were blocked into three age groups, with each age group receiving an equal amount of each treatment. To help account for factors that could not be controlled or blocked, we randomly assigned treatments among the participants using an R script (see appendix).
 
@@ -148,7 +144,7 @@ ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
 
 Before proceeding with planning analysis, we must check the three assumptions for a one-way ANOVA: independence, normally distributed, and equal variance.
 
-The first assumption of independence is satisfied. All data points are collected from unique individuals whos results do not depend on the others. 
+The first assumption of independence is satisfied. All data points are collected from unique individuals whose results do not depend on the others. 
 
 For our tests we decided to do a one-factor test (with just the treatments as a factor) and a
 two-factor test (with the blocking factor of age also added as a factor). For both tests, we
