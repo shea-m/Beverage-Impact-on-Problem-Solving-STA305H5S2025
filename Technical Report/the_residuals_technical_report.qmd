@@ -1,12 +1,17 @@
 ---
 title: "Impact of Caffeinated and Caffeine-Free Beverages on the Problem Solving Skills of A Virtual Population"
 author: 
-  - Bhagatinder Longia 
-  - Musab Muhammad 
-  - Muntasir Munem 
-  - Shea Munson 
-  - Chloe Syriac
-date: 03-14-2025
+  - name: Bhagatinder Longia 
+    equal-contributor: true
+  - name: Musab Muhammad 
+    equal-contributor: true
+  - name: Muntasir Munem 
+    equal-contributor: true
+  - name: Shea Munson 
+    equal-contributor: true
+  - name: Chloe Syriac
+    equal-contributor: true
+date: last-modified
 date-format: long
 header-includes:
   - \usepackage{amsmath}
@@ -14,6 +19,7 @@ header-includes:
   - \usepackage{pgfplots}
   - \usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry}
 abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness, which is why the goal of our study is to determine if there is an association between caffeine use and problem solving skills. We collected data using a virtual population on The Islands. After collecting a sample of 150 virtual participants and splitting them into three age groups, a caffeinated or caffeine-free drink, with water as a control, were administered to each participant. Using a balanced Kruskal-Wallis test, we found that [summary of key findings]. [brief overview of result implications, improvments needed]."
+thanks: "Data available at <https://github.com/shea-m/Beverage-Impact-on-Problem-Solving-STA305H5S2025>"
 format: pdf
 number-sections: true
 toc: true
@@ -81,12 +87,15 @@ We aim to study the following research questions:
 This paper consist of our methodology, analysis, results, limitations, and a conclusion for our study.
 
 # Methodology
+## Design and Setup 
+In February 2025, we conducted an experiment to determine if different caffeinated and caffeine-free drinks effect the problem solving skills of virtual participants on The Islands. Our experiment utilized a balanced one-way randomized complete block (RCB) design. Participants were blocked out into one of three age groups, where they were given one of five drinks (the treatment) and had their score on a 20 minute problem solving test (the response) recorded.
 
-In February 2025, we conducted an experiment to determine if different caffeinated and caffeine-free drinks effect the problem solving skills of virtual participants on The Islands. Our experiment utilized a balanced one-way design. The factor was the drink given to each participant and the response variable was a participant's score on a twenty minute problem solving test.
+Each of the three age group blocks contained an equal number of participants for each treatment, per our RCB design. While we did not have any major factors that we could easily control for, to help account for nuisance factors treatments were randomly assigned among participants using an R script (See [@lst-rand] in Appendix).
 
-Our design blocked participants into three age groups, with each age group containing an equal number of participants for each treatment. To help account for nuisance factors that were unable to be controlled or blocked, we randomly assigned treatments among participants using an R script (See [@lst-rand] in Appendix).
+The experiment included a total of 150 participants $(n = 150)$, with 50 in each of the following age blocks: 18-35, 36-54, and 55+. Each participant was given one of five 250 millilitre drinks $(a = 5)$: Water (Control), Energy Drink, Energy Drink Decaffeinated, Coffee, or Coffee Decaffeinated. Each treatment factor contained 30 participants $(n_j = 30)$, split evenly among the three age blocks thus giving a balanced design. This also provided for enough repetitions to further account for nuisance factors that might not have been dealt with through the blocking or randomization. Since each participant was exposed to only one treatment and randomly assigned to a treatment group, this experiment utilized a between-subjects design.
 
-Our participant sample included 150 participants $(n = 150)$, with 50 in each of the following age blocks: 18-35, 36-54, and 55+. Each participant was given one of five 250 millilitre drinks: Water (Control), Energy Drink, Energy Drink Decaffeinated, Coffee, or Coffee Decaffeinated. There were a total of 30 participants per treatment factor, with 10 in each age group, thereby ensuring and balanced design and providing enough repetitions of each treatment. After each participant was given their drink, a twenty minute problem solving test was administered with their scores record from 0 to 100. Since each participant was exposed to only one treatment and randomly assigned to a treatment group, this experiment utilized a between-subjects design.
+## Data Collection
+Each participant was given their randomly assigned drink and then administered a 20 minute problem solving test. The test was scored from 0 to 100 and after completion, each participants score was recorded. Once all data collection was completed, it was cleaned, stripping any personally identifying information and assigning factor levels and names more easily utilizable and readable within R.
 
 # Analysis
 
@@ -135,6 +144,7 @@ From the boxplot, we can make an initial inference that the means are likely sim
 #| warning: false
 #| message: false
 #| label: fig-checks
+#| fig-cap: Checking One-Way ANOVA Assumptions
 
 one_factor_model <- aov(score ~ treatment, data = data)
 check_model(one_factor_model, check = c("normality", "homogeneity"))
