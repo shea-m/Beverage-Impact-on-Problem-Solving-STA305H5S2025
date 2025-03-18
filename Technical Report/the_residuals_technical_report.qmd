@@ -20,7 +20,9 @@ header-includes:
   - \usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry}
 abstract: "Caffeine is the most popular psychoactive substance in the world, particularly due to its widely known stimulating effects. As a stimulant, caffeine has mostly commonly been used to increase mental alertness, which is why the goal of our study is to determine if there is an association between caffeine use and problem solving skills. We collected data using a virtual population on The Islands. After collecting a sample of 150 virtual participants and splitting them into three age groups, a caffeinated or caffeine-free drink, with water as a control, were administered to each participant. Using a balanced Kruskal-Wallis test, we found that [summary of key findings]. [brief overview of result implications, improvments needed]."
 thanks: "Data available at <https://github.com/shea-m/Beverage-Impact-on-Problem-Solving-STA305H5S2025>"
-format: pdf
+format: 
+  pdf:
+    fig-pos: "H"
 number-sections: true
 toc: true
 ---
@@ -98,10 +100,9 @@ The experiment included a total of 150 participants $(n = 150)$, with 50 in each
 Each participant was given their randomly assigned drink and then administered a 20 minute problem solving test. The test was scored from 0 to 100 and after completion, each participants score was recorded. Once all data collection was completed, it was cleaned, stripping any personally identifying information and assigning factor levels and names more easily utilizable and readable within R.
 
 # Analysis
-
 ## Summary Statistics and Checking Assumptions
 
-We began by summarizing statistics of our data, presented in @tbl-table1. The high mean and median indicate that participants generally scored well on the problem solving test. A low standard deviation indicates tight clustering around the mean and a low IQR indicates tight clustering around the median. This confirms the indication of similar mean and median. The minimum of 67 lies well outside of 1.5 $\times$ IQR, indicating a presence of outliers on the low side, with further inspection necessary to determine the amount. The maximum of 100 along with the data being skewed means that there are no outliers present on the high end.  
+We began by gathering summary statistics of our data, presented in @tbl-table1. The high mean and median indicate that participants generally scored well on the problem solving test. A low standard deviation indicates tight clustering around the mean and a low IQR indicates tight clustering around the median. The minimum of 67 lies well outside of 1.5 $\times$ IQR, indicating a presence of outliers on the low side, with further inspection necessary to determine the amount. The maximum of 100 along with the data being skewed to the high means that there are no outliers present on the high end.  
 
 ```{r}
 #| echo: false
@@ -136,7 +137,11 @@ ggplot(data, aes(x = treatment, y = score, fill = treatment)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
-From the boxplot, we can make an initial inference that the means are likely similar among groups, however the variances are different. Further analysis will confirm these findings. Before we can confirm our initial inference of means, we must check the three assumptions for our planned one-way ANOVA: independence, normally distributed, and equal variance. The first assumption of independence is satisfied by design. All data points are collected from unique individuals whose results do not depend on the others. We next check normality and homogeneity of variance. From the test below in @fig-checks we see that both of these assumptions are violated.
+From the boxplot, we can make an initial inference that the means are likely similar among groups, however the variances are different. To confirm this, further analysis will be utilized, but prior to that we must check assumptions to determine if a one-way ANOVA can be utilized, or if we must proceed with a Kruskal-Wallis non-parametric test. The three assumptions that must be checked are independence, normally distributed, and homogeneous variance. 
+
+1. Independence: This assumption is satisfied by design. All data points are collected from unique individuals whose results do not depend on the others. 
+2. Normality: Violated, as seen in @fig-checks
+3. Homogeneity of Variance: Violated, as seen in @fig-checks 
 
 ```{r, fig.pos='H'}
 #| echo: false
