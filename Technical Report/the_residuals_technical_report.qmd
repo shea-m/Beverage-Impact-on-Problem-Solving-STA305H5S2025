@@ -38,7 +38,7 @@ toc: true
 
 # Ensure necessary packages are installed and loaded
 packages <- c("tidyverse", "patchwork", "performance", "knitr", "see", 
-              "kableExtra", "broom", "Car")
+              "kableExtra", "broom", "car")
 for(pkg in packages) {
   if (!requireNamespace(pkg, quietly = TRUE)) {
     install.packages(pkg)
@@ -93,9 +93,9 @@ This paper consist of our methodology, analysis, results, limitations, and a con
 
 # Methodology
 ## Design and Setup 
-In February 2025, we conducted an experiment to determine if different caffeinated and caffeine-free drinks effect the problem solving skills of virtual participants on The Islands. Our experiment utilized a balanced one-way randomized complete block (RCB) design. Participants were blocked out into one of three age groups, where they were given one of five drinks (the treatment) and had their score on a 20 minute problem solving test (the response) recorded.
+In February 2025, we conducted an experiment to determine if different caffeinated and caffeine-free drinks effect the problem solving skills of virtual participants on The Islands. Our experiment utilized a balanced one-way design with blocking. Participants were blocked out into one of three age groups, where they were given one of five drinks (the treatment) and had their score on a 20 minute problem solving test (the response) recorded.
 
-Each of the three age group blocks contained an equal number of participants for each treatment, per our RCB design. While we did not have any major factors that we could easily control for, to help account for nuisance factors treatments were randomly assigned among participants using an R script (See [@lst-rand] in Appendix).
+Each of the three age group blocks contained an equal number of participants for each treatment. While we did not have any major factors that we could easily control for, to help account for nuisance factors treatments were randomly assigned among participants using an R script (See [@lst-rand] in Appendix).
 
 The experiment included a total of 150 participants $(n = 150)$, with 50 in each of the following age blocks: 18-35, 36-54, and 55+. Each participant was given one of five 250 millilitre drinks $(a = 5)$: Water (Control), Energy Drink, Energy Drink Decaffeinated, Coffee, or Coffee Decaffeinated. Each treatment factor contained 30 participants $(n_j = 30)$, split evenly among the three age blocks thus giving a balanced design. This also provided for enough repetitions to further account for nuisance factors that might not have been dealt with through the blocking or randomization. Since each participant was exposed to only one treatment and randomly assigned to a treatment group, this experiment utilized a between-subjects design.
 
