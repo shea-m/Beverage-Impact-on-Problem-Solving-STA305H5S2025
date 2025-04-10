@@ -220,7 +220,7 @@ Unfortunately, similar to one-way, our assumptions for both normality and homoge
 #| warning: false
 #| message: false
 #| label: fig-twowaychecks
-#| caption: Visual Check of Two-Way ANOVA Assumptions
+#| fig-cap: Visual Check of Two-Way ANOVA Assumptions
 
 two_factor_model <- aov(score ~ treatment + age_group, data = data)
 check_model(two_factor_model, check = c("normality", "homogeneity")) 
