@@ -12,7 +12,7 @@ author:
     equal-contributor: true
   - name: Chloe Syriac
     equal-contributor: true
-date: last-modified
+date: 04-11-2025
 date-format: long
 header-includes:
   - \usepackage{amsmath}
@@ -71,7 +71,7 @@ attach(data)
 ## Background
 As the world's most popular psychoactive substance, caffeine's widely known effects have been studied extensively. Due to it being a stimulant, caffeine has most commonly been used to temporarily increase mental alertness which improves things like memory, while lessening fatigue, thus providing an energy boost. However, some people may experience certain drawbacks like digestion or anxiety issues.
 
-In this study, we are analyzing whether there is an association between caffeine use and problem solving skills by providing coffee, energy drinks, and their caffeine-free counterparts to participants from [The Islands](https://islands.smp.uq.edu.au/), a virtual population developed by the University of Queensland for learning and teaching in statistics. Our sample was split into three age groups: 18-35, 36-54, and 55+. Considering the effects of caffeine, participants assigned a caffeinated drink would be expected to achieve a higher score that those that are not.
+In this study, we are analyzing whether there is an association between caffeine use and problem solving skills by providing coffee, energy drinks, and their caffeine-free counterparts to participants from [The Islands](https://islands.smp.uq.edu.au/), a virtual population developed by the University of Queensland for learning and teaching in statistics. Our sample was split into three age groups: 18-35, 36-54, and 55+. Considering the effects of caffeine, participants assigned a caffeinated drink would be expected to achieve a higher score than those that are not.
 
 ## Research Questions
 We aim to study the following research questions:
@@ -92,9 +92,9 @@ This paper consists of our methodology, analysis, results, limitations, and a co
 
 # Methodology
 ## Design and Setup 
-In February 2025, we conducted an experiment to determine whether different caffeinated and caffeine-free drinks affect the problem solving skills of virtual participants on The Islands. Our experiment utilized a balanced one-way design with blocking. Participants were blocked within one of three age groups, where they were provided one of five drinks (the treatment) and had their score on a 20 minute problem solving test (the response) recorded.
+In February 2025, we conducted an experiment to determine whether different caffeinated and caffeine-free drinks affect the problem solving skills of virtual participants on The Islands. In our experiment we initially had a balanced two factor design with drink type as the main factor and age as a blocking factor. Participants were blocked within one of three age groups, where they were provided one of five drinks (the treatment) and had their score on a 20 minute problem solving test (the response) recorded. Each of the three age group blocks contained an equal number of participants for each treatment, per our RCB design.
 
-Each of the three age group blocks contained an equal number of participants for each treatment, per our RCB design. All the data was collected from participants in a single town called Nidoma in the virtual population to control for environmental factors as much as possible. To further account for nuisance factors, treatments were randomly assigned among participants using an R script (See [@lst-rand] in Appendix).
+However, due to violations of assumptions, we could not incorporate our blocking factor of age in our design (further details in @sec-statistical-tests). All data was collected using participants from the town of Nidoma in the virtual population to control for environmental factors as much as possible. To further account for nuisance factors, treatments were randomly assigned among participants using an R script (See [@lst-rand] in Appendix).
 
 The experiment included a total of 150 participants $(n = 150)$, with 50 in each of the following age blocks: 18-35, 36-54, and 55+. Each participant was given one of five 250 millilitre drinks $(a = 5)$: Water (Control), Energy Drink, Energy Drink Decaffeinated, Coffee, or Coffee Decaffeinated. Each treatment factor contained 30 participants $(n_j = 30)$, split evenly among the three age blocks thus giving a balanced design. This also provided for enough repetitions to further account for nuisance factors that may not have been dealt with through the blocking or randomization. Since each participant was exposed to only one treatment and randomly assigned to a treatment group, this experiment utilized a between-subjects design.
 
@@ -158,7 +158,7 @@ one_factor_model <- aov(score ~ treatment, data = data)
 check_model(one_factor_model, check = c("normality", "homogeneity"))
 ```
 
-## Statistical Tests
+## Statistical Tests {#sec-statistical-tests}
 
 As the assumption of normality and homogeneity of variance have been violated, we are unable to use a one-way ANOVA test. Instead, we opt to use Kruskal-Wallis non-parametric H-test utilizing the treatment type (beverage provided) as our factor. The results of the Kruskal-Wallis H-test are displayed below in @tbl-kwtest.
 
@@ -182,7 +182,7 @@ kable(formatted, col.names = col_names,
 
 From @tbl-kwtest we find a p-value for the Kruskal-Wallis H-test is 0.7735. Since this p-value is much greater than our significance level of 0.05, we do not have sufficient evidence to suggest a difference in mean problem-solving scores among the treatment groups. Therefore, we find that beverage type does not affect problem-solving scores. This result is to be expected as it confirms the initial results inferred from @fig-boxplot1.
 
-Since there were no significant results, no further followup was necessary for RQ2. If there were statistically significant differences in caffeinated vs non-caffeinated beverages, we would have also seen statistically significant evidence that the means among drinks were not equal. Consequently, caffeinated coffee and energy drinks do not have a greater impact on problem-solving scores than their caffeine-free counterparts.
+Since there were no significant results, no further follow-up was necessary for RQ2. If there were statistically significant differences in caffeinated vs non-caffeinated beverages, we would have also seen statistically significant evidence that the means among drinks were not equal. Consequently, caffeinated coffee and energy drinks do not have a greater impact on problem-solving scores than their caffeine-free counterparts.
 
 
 # Limitations
@@ -191,7 +191,7 @@ This study had a number of limitations. For starters, the study could have been 
 
 Additionally, despite the depth provided by The Islands for conducting an experiment, using a virtual population is a major limitation in assessing the impact of caffeine on the problem solving skills of real people. This is because it does not take all of the countless real life factors that impact the effects of caffeine on the body into account. Furthermore, we do not know how the problem solving quiz is implemented, resulting in some uncertainty about the relevance of its assessment to our study. As a result, our experiment may not be incredibly relevant to the real world. Further studies should consider using a real world population instead.
 
-The final major limitation we had was the model used. We would have liked to utilize a two-way ANOVA model, with drink and age as factors, as @fig-dblboxplot indicates there might be some difference among different drinks between age groups.
+The final major limitation we had was the model used. We would have liked to utilize a two-way ANOVA model, with drink type and age as factors, as @fig-dblboxplot indicates there might be some difference among different drinks between age groups.
 
 ```{r, fig.pos='H', fig.width=10, fig.height=6.5}
 #| echo: false
@@ -230,9 +230,10 @@ check_model(two_factor_model, check = c("normality", "homogeneity"))
 
 By analyzing problem-solving scores of the virtual participants across the different treatments, we found no evidence of a statistical difference in means across the treatments. Since no statistical difference was observed in the means across the treatments in the global test, it follows that there is also no significant difference in the means between caffeinated and non-caffeinated drinks. 
 
-However, we should acknowledge that these results may have been influenced by some limitations of the study. The immediate testing after treatment, potential differences in effects between virtual and real participants, uncertainty about the problem-solving tasks given, and the use of a less favored data analysis model all contributed to these limitations.
+In future studies researchers should implement several refinements. Firstly, suﬀicient time should be given between the administering of the drinks and the administer-ing of the problem solving assessment to allow the treatment effects to be more accurately reflected in the subject’s scores. Secondly, replacing virtual subjects with real-life participants increases the relevance of findings by capturing the true effects of the selected drinks on their ability. The problem solving assessment may also be better designed to capture what we truly want to capture in the problem solving skills of the participant.
 
-To address these limitations in future studies, researchers should implement several refinements. Firstly, sufficient time should be given between the administering of the drinks and the administering of the problem solving assessment to allow the treatment effects to be more accurately reflected in the subject’s scores. Secondly, replacing virtual subjects with real-life participants increases the findings' relevance by capturing the true effects of the selected drinks on their ability. The problem solving assessment may also be better designed to capture what we truly want to capture in the problem solving skills of the participant. Finally, using a larger sample size may help approximate a normal distribution, thereby allowing us to satisfy the assumptions required to use the Two Way ANOVA test with age and drinks as factors.
+To extend this study, researchers may examine the impact on problem solving skills of other substances like sugar or stimulants other than caffeine. They may also include other factors like gender, which may result in different caffeine absorption times. Testing other physical or mental abilities, not just problem solving skills, and repeated testing over-time would lead to a more robust result.
+
 
 
 # Appendix
