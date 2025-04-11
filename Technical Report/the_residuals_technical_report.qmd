@@ -88,7 +88,7 @@ We aim to study the following research questions:
 
     - $H_{a}$: association between caffeinated drinks and higher score exists.
 
-This paper consists of our methodology, analysis, results, limitations, and a conclusion for our study.
+The sections that follow detail our study’s methodology, present the analysis and results, address limitations, and conclude with key takeaways and future considerations.
 
 # Methodology
 ## Design and Setup 
@@ -228,13 +228,11 @@ check_model(two_factor_model, check = c("normality", "homogeneity"))
 
 # Conclusion
 
-By analyzing problem-solving scores of the virtual participants across the different treatments, we found no evidence of a statistical difference in means across the treatments. Since no statistical difference was observed in the means across the treatments in the global test, it follows that there is also no significant difference in the means between caffeinated and non-caffeinated drinks. 
+By analyzing problem-solving scores of the virtual participants across the different treatments, we found no evidence of a statistical difference in means across the treatments. Since no statistical difference was observed in the means across the treatments in the global test, it follows that there is also no significant difference in the means between caffeinated and non-caffeinated drinks.
 
-In future studies researchers should implement several refinements. Firstly, suﬀicient time should be given between the administering of the drinks and the administer-ing of the problem solving assessment to allow the treatment effects to be more accurately reflected in the subject’s scores. Secondly, replacing virtual subjects with real-life participants increases the relevance of findings by capturing the true effects of the selected drinks on their ability. The problem solving assessment may also be better designed to capture what we truly want to capture in the problem solving skills of the participant.
+To extend this study, researchers may examine the effects of stimulants other than caffeine on the problem solving skills of individuals. Future studies may also consider blocking for additional factors like gender to better capture potential differences in stimulant effectiveness across subgroups. Furthermore, researchers could expand the scope of the study by testing the effects of stimulants on other physical or mental abilities, beyond just problem solving skills. 
 
-To extend this study, researchers may examine the impact on problem solving skills of other substances like sugar or stimulants other than caffeine. They may also include other factors like gender, which may result in different caffeine absorption times. Testing other physical or mental abilities, not just problem solving skills, and repeated testing over-time would lead to a more robust result.
-
-
+Long-term studies involving repeated measurements over-time can also be done to better understand how prolonged usage of selected stimulants may impact the problem solving skills of participants.  Researchers may also experiment with different dosage levels or different time intervals between administering the stimulants and administering the problem solving assessment. This may allow treatment effects to be more accurately reflected in the scores of participants.
 
 # Appendix
 
