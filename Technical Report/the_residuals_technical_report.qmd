@@ -180,7 +180,7 @@ kable(formatted, col.names = col_names,
 
 # Results
 
-From @tbl-kwtest we find a p-value for the Kruskal-Wallis H-test is 0.7735. Since this p-value is much greater than our significance level of 0.05, we do not have sufficient evidence to suggest a difference in mean problem-solving scores among the treatment groups. Therefore, we find that beverage type does not affect problem-solving scores. This result is to be expected as it confirms the initial results inferred from @fig-boxplot1.
+From @tbl-kwtest we find a p-value for the Kruskal-Wallis H-test is 0.7704. Since this p-value is much greater than our significance level of 0.05, we do not have sufficient evidence to suggest a difference in mean problem-solving scores among the treatment groups. Therefore, we find that beverage type does not affect problem-solving scores. This result is to be expected as aligns with our inferences from @fig-boxplot1.
 
 Since there were no significant results, no further follow-up was necessary for RQ2. If there were statistically significant differences in caffeinated vs non-caffeinated beverages, we would have also seen statistically significant evidence that the means among drinks were not equal. Consequently, caffeinated coffee and energy drinks do not have a greater impact on problem-solving scores than their caffeine-free counterparts.
 
@@ -212,7 +212,7 @@ ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
   theme_minimal()
 ```
 
-Unfortunately, similar to one-way, our assumptions for both normality and homogeneity of variance were violated, shown in @fig-twowaychecks. Due to the challenge of implementing a non-parametric two-way ANOVA test and because of time constraints, we were unfortunately unable to implement this model and instead had to utilize the one-way Kruskal-Wallis model. Further studies should consider using a larger sample size as it may help approximate a normal distribution, thereby allowing us to satisfy the assumptions required to use the Two Way ANOVA test with age and drinks as factors.
+Unfortunately, similar to the one-way ANOVA, our assumptions for both normality and homogeneity of variance were violated, shown in @fig-twowaychecks. Due to the challenge of implementing a non-parametric two-way ANOVA test and because of time constraints, we were unfortunately unable to implement this model and instead had to utilize the one-way Kruskal-Wallis model. Further studies should consider using a larger sample size as it may help approximate a normal distribution, thereby allowing us to satisfy the assumptions required to use the two-way ANOVA test with age and drinks as factors.
 
 ```{r, fig.pos='H'}
 #| echo: false
@@ -235,15 +235,6 @@ To extend this study, researchers may examine the effects of stimulants other th
 Long-term studies involving repeated measurements over-time can also be done to better understand how prolonged usage of selected stimulants may impact the problem solving skills of participants.  Researchers may also experiment with different dosage levels or different time intervals between administering the stimulants and administering the problem solving assessment. This may allow treatment effects to be more accurately reflected in the scores of participants.
 
 # Appendix
-
-```{#lst-rand .R lst-cap="Randomization Script for Assigning Treatments"}
-library(clipr)
-groups <- c("Water", "Coffee", "Coffee (Decaf)", "Energy Drink", 
-          "Energy Drink (Decaf)")
-labels <- rep(groups, 10)
-shuffled <- sample(labels)
-write_clip(shuffled, type = "text")
-```
 
 ```{r}
 #| eval: false
@@ -290,7 +281,7 @@ kable(t(sum_data), col.names = labs, align = "c")
 ggplot(data, aes(x = treatment, y = score, fill = treatment)) +
   geom_boxplot() +
   scale_y_continuous(limits = c(60, 100)) +
-  scale_fill_brewer(palette = "Set1") +
+  scale_fill_brewer(palette = "Blues") +
   labs(title = "Problem Solving Scores Categorized by Drink",
   x = "Treatment (Drink Type)", y = "Problem Solving Test Score") +
   theme(legend.position = "none")
@@ -321,4 +312,13 @@ ggplot(data, aes(x = treatment, y = score, fill = age_group)) +
 # Check assumptions for 2 factor model
 two_factor_model <- aov(score ~ treatment + age_group, data = data)
 check_model(two_factor_model, check = c("normality", "homogeneity")) 
+```
+
+```{#lst-rand .R lst-cap="Randomization Script for Assigning Treatments"}
+library(clipr)
+groups <- c("Water", "Coffee", "Coffee (Decaf)", "Energy Drink", 
+          "Energy Drink (Decaf)")
+labels <- rep(groups, 10)
+shuffled <- sample(labels)
+write_clip(shuffled, type = "text")
 ```
